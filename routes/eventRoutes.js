@@ -3,41 +3,40 @@ const express = require("express");
 const router = express.Router();
 
 const {
-createEvent,
-getEvents,
-registerEvent,
-deleteEvent
-}=require("../controllers/eventController");
+  createEvent,
+  getEvents,
+  registerEvent,
+  deleteEvent
+} = require("../controllers/eventController");
+
+const { protect } = require("../middleware/authMiddleware");
 
 
-const authMiddleware = require("../middleware/authMiddleware");
-
-
-// Public/student
+// GET ALL EVENTS (Students/Public)
 router.get("/", getEvents);
 
 
-// Admin create
+// CREATE EVENT (Admin)
 router.post(
-"/create",
-authMiddleware,
-createEvent
+  "/create",
+  protect,
+  createEvent
 );
 
 
-// Student register
+// REGISTER EVENT (Students)
 router.post(
-"/:id/register",
-authMiddleware,
-registerEvent
+  "/:id/register",
+  protect,
+  registerEvent
 );
 
 
-// Admin delete
+// DELETE EVENT (Admin)
 router.delete(
-"/:id",
-authMiddleware,
-deleteEvent
+  "/:id",
+  protect,
+  deleteEvent
 );
 
 
